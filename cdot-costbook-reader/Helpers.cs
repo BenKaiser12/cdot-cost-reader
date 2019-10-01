@@ -55,7 +55,9 @@ namespace cdot_costbook_reader
             Regex regex_unit = new Regex(itemUnit_pat);
             Match m_u = regex_unit.Match(line);
             newItem.Unit = m_u.ToString().TrimEnd(' ');
-            
+
+            Console.WriteLine("Done");
+
             return newItem;
         }
     }
