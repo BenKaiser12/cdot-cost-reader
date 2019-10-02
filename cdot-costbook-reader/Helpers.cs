@@ -32,31 +32,20 @@ namespace cdot_costbook_reader
 
         public static Item CreateItemObject(string line)
         {
+            // Create empty Item object
             Item newItem = new Item();
-            
 
-            //regex patterns
-            string itemCode_pat = @"[0-9]{3}-[0-9]{5}";
-            string itemDesc_pat = @"\b\w+[A-Za-z]\b\s.*?(\b\w+[A-Za-z]\b\s)";
-            string itemUnit_pat = @"(\b\w+[A-Za-z]\b\s){1,}(?=[=])"
+            //regex pattern
+            string pattern = @"(\d{3}-\d{5})|((\w+\s){1,}|([A-Za-z]{1,})-|\(.+\)){1,}(?=[\s|=])";
 
-            // Regex for Item Code
-            Regex regex_code = new Regex(itemCode_pat);
-            Match m_c = regex_code.Match(line);
-            newItem.ItemCode = m_c.ToString();
+            // Regex for Item Info
+            Regex regex = new Regex(pattern);
+            MatchCollection matches = regex.Matches(line);
 
-
-            // Regex for Item Name
-            Regex regex = new Regex(itemDesc_pat);
-            Match m = regex.Match(line);
-            newItem.ItemName = m.ToString().TrimEnd(' ');
-
-            // Regex for Item Unit
-            Regex regex_unit = new Regex(itemUnit_pat);
-            Match m_u = regex_unit.Match(line);
-            newItem.Unit = m_u.ToString().TrimEnd(' ');
-
-            Console.WriteLine("Done");
+            // assign Item Properties
+            newItem.Code = matches[0].ToString().TrimEnd(' ');
+            newItem.Desc = matches[1].ToString().TrimEnd(' ');
+            newItem.Unit = matches[2].ToString().TrimEnd(' ');
 
             return newItem;
         }

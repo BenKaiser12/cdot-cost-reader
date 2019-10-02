@@ -8,8 +8,8 @@ namespace cdot_costbook_reader
 {
     public class Item
     {
-        public string ItemCode { get; set; }
-        public string ItemName { get; set; }
+        public string Code { get; set; }
+        public string Desc { get; set; }
         public string Unit { get; set; }
         
     }

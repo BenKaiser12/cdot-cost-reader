@@ -23,7 +23,8 @@ namespace cdot_costbook_reader
             // Create new Items for each item in cost book
             for (int i = 0; i < itemLines_array.Length; i++)
             {
-                Helpers.CreateItemObject(itemLines_array[i]);
+                Item newItem = Helpers.CreateItemObject(itemLines_array[i]);
+                Console.WriteLine("Code: {0}, Desc: {1}, Unit: {2}",newItem.Code, newItem.Desc, newItem.Unit);
             }
 
 
