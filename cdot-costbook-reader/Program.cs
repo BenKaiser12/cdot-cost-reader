@@ -32,8 +32,14 @@ namespace cdot_costbook_reader
                 newItem = Helpers.AddItemCostInfo(newItem, annualCostLines_array[i]);
                 itemList.Add(newItem);
             }
-            
 
+            // Insert items into database table
+            foreach (Item item in itemList)
+            {
+                Database.AddItem(item);
+            }
+
+            /*
             // Print Item Data
             foreach (Item item in itemList)
             {
@@ -43,6 +49,7 @@ namespace cdot_costbook_reader
                     "\n",
                     item.Code, item.Desc, item.Unit, item.Qty, item.EngEst, item.AvgBid, item.AwdBid);
             }
+            */
 
 
             // Wait for user to close program
