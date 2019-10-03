@@ -37,6 +37,11 @@ namespace cdot_costbook_reader
             foreach (Item item in itemList)
             {
                 Database.AddItem(item);
+                Console.WriteLine("Item: {0}, Desc: {1}, Unit: {2}" +
+                    "\nYearly Average Info:" +
+                    "\nQTY: {3}, Eng. Est.: {4}, Avg Bid: {5}, Awd Bid: {6}" +
+                    "\n",
+                    item.Code, item.Desc, item.Unit, item.Qty, item.EngEst, item.AvgBid, item.AwdBid);
             }
 
             /*

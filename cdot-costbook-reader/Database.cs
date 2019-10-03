@@ -38,7 +38,7 @@ namespace cdot_costbook_reader
 
         public static void AddItem(Item item)
         {
-            string sql = "INSERT INTO items (code, desc, unit, qty, engest, avgbid, awdbid) VALUES (@p0,@p1,@p3,@p3,@p4,@p5,@p6)";
+            string sql = "INSERT INTO items (code, desc, unit, qty, engest, avgbid, awdbid) VALUES (@p0,@p1,@p2,@p3,@p4,@p5,@p6)";
 
             CreateItemTable();
             SQLiteConnection conn = new SQLiteConnection(connString);
