@@ -17,30 +17,33 @@ namespace cdot_costbook_reader
             // Convert filepath to array of lines
             string[] filepath_array = Helpers.TextFileToArray(filepath);
 
-            // Get and Print the line numbers for each item
+            // Get the lines with item headers in filepath array
             string[] itemLines_array = Helpers.GetItemLines(filepath_array);
 
-            // Create new Items for each item in cost book
+            // Get Yearly cost info lines
+            string[] annualCostLines_array = Helpers.GetItemAverageLines(filepath_array);
+            
+            
+            // Create Item object for each item in cost book
+            List<Item> itemList = new List<Item>();
             for (int i = 0; i < itemLines_array.Length; i++)
             {
                 Item newItem = Helpers.CreateItemObject(itemLines_array[i]);
-                Console.WriteLine("Code: {0}, Desc: {1}, Unit: {2}",newItem.Code, newItem.Desc, newItem.Unit);
-            }
-
-
-            /* 
-            // Print the text file in the console
-            for (int i = 0; i < filepath_array.Length; i++)
-            {
-                Console.WriteLine(filepath_array[i]);
+                newItem = Helpers.AddItemCostInfo(newItem, annualCostLines_array[i]);
+                itemList.Add(newItem);
             }
             
-            
-            for (int i = 0; i < itemLines_array.Length; i++)
+
+            // Print Item Data
+            foreach (Item item in itemList)
             {
-                Console.WriteLine(itemLines_array[i]);
+                Console.WriteLine("Item: {0}, Desc: {1}, Unit: {2}" +
+                    "\nYearly Average Info:" +
+                    "\nQTY: {3}, Eng. Est.: {4}, Avg Bid: {5}, Awd Bid: {6}" +
+                    "\n",
+                    item.Code, item.Desc, item.Unit, item.Qty, item.EngEst, item.AvgBid, item.AwdBid);
             }
-            */
+
 
             // Wait for user to close program
             Console.WriteLine("Press Any Key to exit!");

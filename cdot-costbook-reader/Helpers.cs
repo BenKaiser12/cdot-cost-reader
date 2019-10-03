@@ -27,7 +27,23 @@ namespace cdot_costbook_reader
                 }
             }
             itemLines_array = itemList.ToArray();
-            return itemLines_array;
+            string[] itemListCleaned = itemLines_array.Distinct().ToArray();
+            return itemListCleaned;
+        }
+
+        public static string[] GetItemAverageLines(string[] filepath_array)
+        {
+            List<string> itemAverageList = new List<string>();
+            string[] itemAverageList_array;
+
+            for (int i = 0; i < filepath_array.Length; i++)
+            {
+                if (filepath_array[i].StartsWith("                                WEIGHTED AVERAGE FOR THE YEAR")) {
+                    itemAverageList.Add(filepath_array[i]);
+                }
+            }
+            itemAverageList_array = itemAverageList.ToArray();
+            return itemAverageList_array;
         }
 
         public static Item CreateItemObject(string line)
@@ -48,6 +64,22 @@ namespace cdot_costbook_reader
             newItem.Unit = matches[2].ToString().TrimEnd(' ');
 
             return newItem;
+        }
+
+        public static Item AddItemCostInfo(Item item, string costLine)
+        {
+            // Get matches collection from cost string
+            string pattern = @"\d{1,}\.\d{2}";
+            Regex regex = new Regex(pattern);
+            MatchCollection matches = regex.Matches(costLine);
+
+            // Insert into Item costs
+            item.Qty = matches[0].ToString();
+            item.EngEst = matches[1].ToString();
+            item.AvgBid = matches[2].ToString();
+            item.AwdBid = matches[3].ToString();
+            
+            return item;
         }
     }
 }
