@@ -74,10 +74,10 @@ namespace cdot_costbook_reader
             MatchCollection matches = regex.Matches(costLine);
 
             // Insert into Item costs
-            item.Qty = matches[0].ToString();
-            item.EngEst = matches[1].ToString();
-            item.AvgBid = matches[2].ToString();
-            item.AwdBid = matches[3].ToString();
+            item.Qty = float.Parse(matches[0].ToString());
+            item.EngEst = float.Parse(matches[1].ToString());
+            item.AvgBid = float.Parse(matches[2].ToString());
+            item.AwdBid = float.Parse(matches[3].ToString());
             
             return item;
         }

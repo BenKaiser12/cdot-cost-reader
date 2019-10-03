@@ -11,10 +11,10 @@ namespace cdot_costbook_reader
         public string Code { get; set; }
         public string Desc { get; set; }
         public string Unit { get; set; }
-        public string Qty { get; set; }
-        public string EngEst { get; set; }
-        public string AvgBid { get; set; }
-        public string AwdBid { get; set; }
+        public float Qty { get; set; }
+        public float EngEst { get; set; }
+        public float AvgBid { get; set; }
+        public float AwdBid { get; set; }
 
     }
 }
