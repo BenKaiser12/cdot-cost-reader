@@ -16,9 +16,9 @@ namespace cdot_costbook_reader
             SQLiteConnection.CreateFile(dbName);
         }
 
-        public static void CreateItemTable()
+        public static void CreateItemTable(string tableName)
         {
-            string sql = "CREATE TABLE IF NOT EXISTS items (" +
+            string sql = "CREATE TABLE IF NOT EXISTS @p0 (" +
                 "id INTEGER PRIMARY KEY," +
                 "code TEXT," +
                 "desc TEXT," +
@@ -32,15 +32,17 @@ namespace cdot_costbook_reader
             SQLiteConnection conn = new SQLiteConnection(connString);
             conn.Open();
             SQLiteCommand comm = new SQLiteCommand(sql, conn);
+            comm.Parameters.AddWithValue("@p0", tableName);
             comm.ExecuteNonQuery();
             conn.Close();
         }
 
         public static void AddItem(Item item)
         {
-            string sql = "INSERT INTO items (code, desc, unit, qty, engest, avgbid, awdbid) VALUES (@p0,@p1,@p2,@p3,@p4,@p5,@p6)";
+            string sql = "INSERT INTO items_2018 (code, desc, unit, qty, engest, avgbid, awdbid) VALUES (@p0,@p1,@p2,@p3,@p4,@p5,@p6)";
 
-            CreateItemTable();
+            // CreateItemTable("items_2018");
+
             SQLiteConnection conn = new SQLiteConnection(connString);
             conn.Open();
 
@@ -55,6 +57,46 @@ namespace cdot_costbook_reader
 
             command.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public static List<Item> ReadItemTable(string year)
+        {
+            // Initialize empty list of Item objects
+            string sql = @"SELECT * FROM iteams_" + year;
+
+            using (SQLiteConnection conn = new SQLiteConnection(connString))
+            {
+                // OPen the connection
+                conn.Open();
+
+                // Start by using the command
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        List<Item> itemList = new List<Item>();
+
+                        while (reader.Read())
+                        {
+                            // Add Items to the list using the data reader
+                            itemList.Add(new Item
+                            {
+                                Code = reader.GetString(0),
+                                Desc = reader.GetString(1),
+                                Unit = reader.GetString(2),
+                                Qty = reader.GetFloat(3),
+                                EngEst = reader.GetFloat(4),
+                                AvgBid = reader.GetFloat(5),
+                                AwdBid = reader.GetFloat(6)
+                            });
+                        }
+
+                        // Close the connection and return the list
+                        conn.Close();
+                        return itemList;
+                    }
+                }
+            }
         }
     }
 }

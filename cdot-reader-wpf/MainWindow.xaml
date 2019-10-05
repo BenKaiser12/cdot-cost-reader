@@ -6,7 +6,20 @@
         xmlns:local="clr-namespace:cdot_reader_wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open"/>
+                <MenuItem Header="_Close"/>
+                <MenuItem Header="_Save"/>
+            </MenuItem>
+            <MenuItem Header="Data">
+                <MenuItem Header="Add File"
+                          Click="MenuItem_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <StackPanel></StackPanel>
+    </DockPanel>
+
 </Window>
